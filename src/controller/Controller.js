@@ -15,9 +15,9 @@ export default class Controller {
     const orderAmount = this.getSumOrderAmount(orderMenus);
     OutputView.printTotalOrderAmountBeforeDiscount(orderAmount);
     const event = new Event(orderAmount, visitDate, orderMenus);
-    const { christmasDiscount, weekdayDiscount, weekendDiscount, specialDiscount, isPresent } =
-      event.getTotalEventResult();
-    OutputView.printPresentMenu(isPresent);
+    const eventResult = event.getTotalEventResult();
+    OutputView.printPresentMenu(eventResult.isPresent);
+    OutputView.printBenefitsDetails(eventResult);
   }
 
   getSumOrderAmount(orderMenus) {

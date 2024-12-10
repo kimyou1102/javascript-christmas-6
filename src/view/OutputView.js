@@ -41,6 +41,10 @@ const OutputView = {
   },
   printBenefitAmount(moeny) {
     Console.print('\n<총혜택 금액>');
+    if (moeny === 0) {
+      Console.print('0원');
+      return;
+    }
     Console.print(`-${moeny.toLocaleString('ko-KR')} 원`);
   },
   printPaymentAmountAfterDiscount(totalMoeny, discountMoney) {

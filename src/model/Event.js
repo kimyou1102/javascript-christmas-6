@@ -13,4 +13,18 @@ export default class Event {
     const START_MONEY = 1000;
     return START_MONEY + (this.date - 1) * 100;
   }
+
+  getWeekdayDiscount() {
+    if (!weekday.includes(this.date)) return 0;
+
+    const WEEKDAY_DISCOUNT_MONEY = 2023;
+    let discount = 0;
+    this.orderMenus.forEach(({ name, quantity }) => {
+      if (menu[name].type === '디저트') {
+        discount += WEEKDAY_DISCOUNT_MONEY * quantity;
+      }
+    });
+
+    return discount;
+  }
 }

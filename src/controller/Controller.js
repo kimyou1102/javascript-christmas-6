@@ -8,5 +8,6 @@ export default class Controller {
     const visitDate = await InputView.readDate();
     const orderMenu = await InputView.readMenu();
     const menu = parseMenus(orderMenu);
+    OutputView.printMenu(menu);
   }
 }

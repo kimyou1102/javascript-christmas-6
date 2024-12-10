@@ -1,9 +1,11 @@
 import { Console } from '@woowacourse/mission-utils';
 
 const OutputView = {
-  printMenu() {
-    Console.print('<주문 메뉴>');
-    // ...
+  printMenu(menus) {
+    Console.print('\n<주문 메뉴>');
+    menus.forEach((menu) => {
+      Console.print(`${menu.name} ${menu.quantity}개`);
+    });
   },
   // ...
   printGreeting() {

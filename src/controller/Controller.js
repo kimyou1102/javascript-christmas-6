@@ -5,6 +5,7 @@ import { menu } from '../constants/menu.js';
 import Event from '../model/Event.js';
 
 export default class Controller {
+  // eslint-disable-next-line max-lines-per-function
   async start() {
     OutputView.printGreeting();
     const visitDate = await InputView.readDate();
@@ -18,6 +19,17 @@ export default class Controller {
     const eventResult = event.getTotalEventResult();
     OutputView.printPresentMenu(eventResult.isPresent);
     OutputView.printBenefitsDetails(eventResult);
+    const totalBenefitMoney = this.getTotalBenefitMoney(eventResult);
+    OutputView.printBenefitAmount(totalBenefitMoney);
+  }
+
+  getTotalBenefitMoney(eventResult) {
+    const { isPresent, ...restResult } = eventResult;
+    const discountMoneys = Object.values(restResult);
+    const sumDiscountMoney = discountMoneys.reduce((acc, money) => acc + money, 0);
+    let presentMoeny = 0;
+    if (isPresent) presentMoeny = 25000;
+    return sumDiscountMoney + presentMoeny;
   }
 
   getSumOrderAmount(orderMenus) {

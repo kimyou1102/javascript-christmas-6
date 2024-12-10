@@ -19,16 +19,19 @@ const OutputView = {
     }
     Console.print('없음');
   },
-  // eslint-disable-next-line max-lines-per-function
+
   printBenefitsDetails(eventResult) {
-    const { christmasDiscount, weekdayDiscount, weekendDiscount, specialDiscount, isPresent } =
-      eventResult;
     Console.print('\n<혜택 내역>');
     const values = Object.values(eventResult);
     if (values.every((value) => value === 0 || value === false)) {
       Console.print('없음');
       return;
     }
+    this.printBenefit(eventResult);
+  },
+  printBenefit(eventResult) {
+    const { christmasDiscount, weekdayDiscount, weekendDiscount, specialDiscount, isPresent } =
+      eventResult;
     if (christmasDiscount > 0)
       Console.print(`크리스마스 디데이 할인: -${christmasDiscount.toLocaleString('ko-KR')}원`);
     if (weekdayDiscount > 0)

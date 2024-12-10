@@ -1,5 +1,6 @@
 import { Console } from '@woowacourse/mission-utils';
 import { OUT_MESSAGE } from '../constants/message.js';
+import { parseMoney } from '../utils/parseMoney.js';
 
 const OutputView = {
   printMenu(menus) {
@@ -10,7 +11,7 @@ const OutputView = {
   },
   printTotalOrderAmountBeforeDiscount(moeny) {
     Console.print(OUT_MESSAGE.ORDER_AMOUNT_BEFORE_DISCOUNT);
-    Console.print(`${moeny.toLocaleString('ko-KR')}원`);
+    Console.print(`${parseMoney(moeny)}원`);
   },
   printPresentMenu(isPresent) {
     Console.print(OUT_MESSAGE.PRESENT_MENU);
@@ -30,26 +31,18 @@ const OutputView = {
     }
     this.printBenefit(eventResult);
   },
-  // eslint-disable-next-line max-lines-per-function
+
   printBenefit(eventResult) {
     const { christmasDiscount, weekdayDiscount, weekendDiscount, specialDiscount, isPresent } =
       eventResult;
     if (christmasDiscount > 0)
-      Console.print(
-        `${OUT_MESSAGE.CHRISTMAS_DISCOUNT} -${christmasDiscount.toLocaleString('ko-KR')}원`,
-      );
+      Console.print(`${OUT_MESSAGE.CHRISTMAS_DISCOUNT} -${parseMoney(christmasDiscount)}원`);
     if (weekdayDiscount > 0)
-      Console.print(
-        `${OUT_MESSAGE.WEEKDAY_DISCOUNT} -${weekdayDiscount.toLocaleString('ko-KR')}원`,
-      );
+      Console.print(`${OUT_MESSAGE.WEEKDAY_DISCOUNT} -${parseMoney(weekdayDiscount)}원`);
     if (weekendDiscount > 0)
-      Console.print(
-        `${OUT_MESSAGE.WEEKEND_DISCOUNT} -${weekendDiscount.toLocaleString('ko-KR')}원`,
-      );
+      Console.print(`${OUT_MESSAGE.WEEKEND_DISCOUNT} -${parseMoney(weekendDiscount)}원`);
     if (specialDiscount > 0)
-      Console.print(
-        `${OUT_MESSAGE.SPECIAL_DISCOUNT}: -${specialDiscount.toLocaleString('ko-KR')}원`,
-      );
+      Console.print(`${OUT_MESSAGE.SPECIAL_DISCOUNT}: -${parseMoney(specialDiscount)}원`);
     if (isPresent) Console.print(`증정 이벤트: 25,000원`);
   },
   printBenefitAmount(moeny) {
@@ -58,11 +51,11 @@ const OutputView = {
       Console.print('0원');
       return;
     }
-    Console.print(`-${moeny.toLocaleString('ko-KR')}원`);
+    Console.print(`-${parseMoney(moeny)}원`);
   },
   printPaymentAmountAfterDiscount(totalMoeny, discountMoney) {
     Console.print(OUT_MESSAGE.PAYMENT_AMOUNT_AFTER_DISCOUNT);
-    Console.print(`${(totalMoeny - discountMoney).toLocaleString('ko-KR')}원`);
+    Console.print(`${parseMoney(totalMoeny - discountMoney)}원`);
   },
   printEventBadge(badge) {
     Console.print(OUT_MESSAGE.BADGE);

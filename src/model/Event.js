@@ -1,4 +1,4 @@
-import { weekday } from '../constants/eventDay.js';
+import { weekday, eventDay } from '../constants/eventDay.js';
 import { menu } from '../constants/menu.js';
 
 export default class Event {
@@ -40,4 +40,11 @@ export default class Event {
 
     return discount;
   }
+
+  getSpecialDiscount() {
+    if (!eventDay.includes(this.date)) return 0;
+    return 1000;
+  }
+
+  getPresent() {}
 }

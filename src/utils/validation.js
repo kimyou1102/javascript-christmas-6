@@ -1,8 +1,6 @@
 import { createError } from './createError.js';
 import { menu } from '../constants/menu.js';
-
-const DATE = '유효하지 않은 날짜입니다. 다시 입력해 주세요.';
-const MENU = '유효하지 않은 주문입니다. 다시 입력해 주세요';
+import { ERROR_MESSAGE } from '../constants/message.js';
 
 export const validateMenuInput = (menusInput) => {
   hasSpecialSymbol(menusInput);
@@ -16,34 +14,34 @@ export const validateMenuInput = (menusInput) => {
 };
 
 export const validateDate = (dateInput) => {
-  checkNumber(dateInput, DATE);
+  checkNumber(dateInput, ERROR_MESSAGE.DATE);
   const date = Number(dateInput);
   if (date < 1 || date > 31) {
-    createError(DATE);
+    createError(ERROR_MESSAGE.DATE);
   }
 };
 
 const checkOnlyDrink = (menuNames) => {
   if (menuNames.every((name) => menu[name].type === '음료')) {
-    createError(MENU);
+    createError(ERROR_MESSAGE.MENU);
   }
 };
 
 const checkDuplication = (menus) => {
   if (menus.length !== new Set(menus).size) {
-    createError(MENU);
+    createError(ERROR_MESSAGE.MENU);
   }
 };
 
 const checkCount = (counts) => {
   if (counts.reduce((acc, count) => acc + count, 0) > 20) {
-    createError(MENU);
+    createError(ERROR_MESSAGE.MENU);
   }
 };
 
 const hasSpecialSymbol = (productInput) => {
   if (productInput.replace(/[^,가-힣-0-9]/g, '').length !== productInput.length) {
-    createError(MENU);
+    createError(ERROR_MESSAGE.MENU);
   }
 };
 
@@ -52,19 +50,19 @@ const checkItem = (menu) => {
   const [name, quantity] = menu.split('-');
 
   checkMenuName(name, quantity);
-  checkNumber(quantity, MENU);
-  if (quantity < 1) createError(MENU);
+  checkNumber(quantity, ERROR_MESSAGE.MENU);
+  if (quantity < 1) createError(ERROR_MESSAGE.MENU);
 };
 
 const checkItemEmpty = (menu) => {
   if (menu === '') {
-    createError(MENU);
+    createError(ERROR_MESSAGE.MENU);
   }
 };
 
 const checkMenuName = (name) => {
   if (!menu[name]) {
-    createError(MENU);
+    createError(ERROR_MESSAGE.MENU);
   }
 };
 

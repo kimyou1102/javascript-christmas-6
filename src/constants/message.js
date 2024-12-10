@@ -15,7 +15,7 @@ export const OUT_MESSAGE = {
   ORDER: '\n<주문 메뉴>',
   ORDER_AMOUNT_BEFORE_DISCOUNT: '\n<할인 전 총주문 금액>',
   PRESENT_MENU: '\n<증정 메뉴>',
-  BENEFITS_DETAILS: 'n<혜택 내역>',
+  BENEFITS_DETAILS: '\n<혜택 내역>',
   CHRISTMAS_DISCOUNT: '크리스마스 디데이 할인:',
   WEEKDAY_DISCOUNT: '평일 할인:',
   WEEKEND_DISCOUNT: '주말 할인:',

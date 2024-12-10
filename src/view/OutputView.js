@@ -25,7 +25,7 @@ const OutputView = {
       eventResult;
     Console.print('\n<혜택 내역>');
     const values = Object.values(eventResult);
-    if (values.every((value) => value === 0 && value === false)) {
+    if (values.every((value) => value === 0 || value === false)) {
       Console.print('없음');
       return;
     }

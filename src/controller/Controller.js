@@ -9,28 +9,37 @@ import { menu } from '../constants/menu.js';
 import { validateMenuInput, validateDate } from '../utils/validation.js';
 
 export default class Controller {
-  // eslint-disable-next-line max-lines-per-function
   async start() {
     OutputView.printGreeting();
-    const visitDate = await this.getValidatedInputWithRetry(InputView.readDate, validateDate);
-    const orderMenuInput = await this.getValidatedInputWithRetry(
-      InputView.readMenu,
-      validateMenuInput,
-    );
-    const orderMenus = parseMenus(orderMenuInput);
+    const { visitDate, orderMenus } = await this.getDateAndMenus();
     OutputView.printMenu(orderMenus);
 
     const orderAmount = this.getSumOrderAmount(orderMenus);
     OutputView.printTotalOrderAmountBeforeDiscount(orderAmount);
-    const event = new Event(orderAmount, visitDate, orderMenus);
-    const eventResult = event.getTotalEventResult();
-    OutputView.printPresentMenu(eventResult.isPresent);
-    OutputView.printBenefitsDetails(eventResult);
+
+    const eventResult = new Event(orderAmount, visitDate, orderMenus).getTotalEventResult();
     const totalBenefitMoneyWithPresent = this.getTotalBenefitMoneyWithPresent(eventResult);
-    OutputView.printBenefitAmount(totalBenefitMoneyWithPresent);
-    OutputView.printPaymentAmountAfterDiscount(orderAmount, this.getTotalBenefitMoney(eventResult));
+    this.printEventResult(orderAmount, eventResult, totalBenefitMoneyWithPresent);
+
     const badge = new Badge(totalBenefitMoneyWithPresent);
     OutputView.printEventBadge(badge.getBadgeType());
+  }
+
+  printEventResult(orderAmount, eventResult, totalBenefitMoneyWithPresent) {
+    OutputView.printPresentMenu(eventResult.isPresent);
+    OutputView.printBenefitsDetails(eventResult);
+    OutputView.printBenefitAmount(totalBenefitMoneyWithPresent);
+    OutputView.printPaymentAmountAfterDiscount(orderAmount, this.getTotalBenefitMoney(eventResult));
+  }
+
+  async getDateAndMenus() {
+    const visitDate = await this.getValidatedInputWithRetry(InputView.readDate, validateDate);
+    const orderMenus = await this.getValidatedInputWithRetry(InputView.readMenu, validateMenuInput);
+
+    return {
+      visitDate,
+      orderMenus: parseMenus(orderMenus),
+    };
   }
 
   getTotalBenefitMoney(eventResult) {

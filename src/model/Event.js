@@ -46,5 +46,8 @@ export default class Event {
     return 1000;
   }
 
-  getPresent() {}
+  isPresent() {
+    if (this.totalMoney >= 120000) return true;
+    return false;
+  }
 }

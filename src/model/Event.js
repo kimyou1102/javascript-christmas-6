@@ -27,4 +27,17 @@ export default class Event {
 
     return discount;
   }
+
+  getWeekendDiscount() {
+    if (weekday.includes(this.date)) return 0;
+    const WEEKEND_DISCOUNT_MONEY = 2023;
+    let discount = 0;
+    this.orderMenus.forEach(({ name, quantity }) => {
+      if (menu[name].type === '메인') {
+        discount += WEEKEND_DISCOUNT_MONEY * quantity;
+      }
+    });
+
+    return discount;
+  }
 }

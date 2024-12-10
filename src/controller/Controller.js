@@ -6,13 +6,17 @@ import Badge from '../model/Badge.js';
 
 import { parseMenus } from '../utils/parseMenus.js';
 import { menu } from '../constants/menu.js';
+import { validateMenuInput, validateDate } from '../utils/validation.js';
 
 export default class Controller {
   // eslint-disable-next-line max-lines-per-function
   async start() {
     OutputView.printGreeting();
-    const visitDate = await InputView.readDate();
-    const orderMenuInput = await InputView.readMenu();
+    const visitDate = await this.getValidatedInputWithRetry(InputView.readDate, validateDate);
+    const orderMenuInput = await this.getValidatedInputWithRetry(
+      InputView.readMenu,
+      validateMenuInput,
+    );
     const orderMenus = parseMenus(orderMenuInput);
     OutputView.printMenu(orderMenus);
 
@@ -47,5 +51,16 @@ export default class Controller {
       (acc, orderMenu) => acc + menu[orderMenu.name].price * orderMenu.quantity,
       0,
     );
+  }
+
+  async getValidatedInputWithRetry(getInput, validate) {
+    try {
+      const input = await getInput();
+      validate(input);
+      return input;
+    } catch (error) {
+      OutputView.printError(error.message);
+      return await this.getValidatedInputWithRetry(getInput, validate);
+    }
   }
 }

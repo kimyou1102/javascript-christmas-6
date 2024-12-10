@@ -2,17 +2,22 @@ import InputView from '../view/InputView.js';
 import OutputView from '../view/OutputView.js';
 import { parseMenus } from '../utils/parseMenus.js';
 import { menu } from '../constants/menu.js';
+import Event from '../model/Event.js';
 
 export default class Controller {
   async start() {
     OutputView.printGreeting();
     const visitDate = await InputView.readDate();
-    const orderMenu = await InputView.readMenu();
-    const menu = parseMenus(orderMenu);
-    OutputView.printMenu(menu);
+    const orderMenuInput = await InputView.readMenu();
+    const orderMenus = parseMenus(orderMenuInput);
+    OutputView.printMenu(orderMenus);
 
-    const orderAmount = this.getSumOrderAmount(menu);
+    const orderAmount = this.getSumOrderAmount(orderMenus);
     OutputView.printTotalOrderAmountBeforeDiscount(orderAmount);
+    const event = new Event(orderAmount, visitDate, orderMenus);
+    const { christmasDiscount, weekdayDiscount, weekendDiscount, specialDiscount, isPresent } =
+      event.getTotalEventResult();
+    OutputView.printPresentMenu(isPresent);
   }
 
   getSumOrderAmount(orderMenus) {

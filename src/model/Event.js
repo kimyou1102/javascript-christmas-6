@@ -1,11 +1,32 @@
 import { weekday, eventDay } from '../constants/eventDay.js';
 import { menu } from '../constants/menu.js';
 
+const notAppliedResult = {
+  christmasDiscount: 0,
+  weekdayDiscount: 0,
+  weekendDiscount: 0,
+  specialDiscount: 0,
+  isPresent: false,
+};
+
 export default class Event {
   constructor(totalMoney, date, orderMenus) {
     this.totalMoney = totalMoney;
     this.date = date;
     this.orderMenus = orderMenus;
+  }
+
+  getTotalEventResult() {
+    if (this.totalMoney < 10000) {
+      return notAppliedResult;
+    }
+    return {
+      christmasDiscount: this.getChristmasDiscount(),
+      weekdayDiscount: this.getWeekdayDiscount(),
+      weekendDiscount: this.getWeekendDiscount(),
+      specialDiscount: this.getSpecialDiscount(),
+      isPresent: this.isPresent(),
+    };
   }
 
   getChristmasDiscount() {

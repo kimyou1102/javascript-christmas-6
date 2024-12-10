@@ -47,6 +47,10 @@ const OutputView = {
     Console.print('\n<할인 후 예상 결제 금액>');
     Console.print(`${(totalMoeny - discountMoney).toLocaleString('ko-KR')} 원`);
   },
+  printEventBadge(badge) {
+    Console.print('\n<12월 이벤트 배지>');
+    Console.print(badge);
+  },
   printGreeting() {
     Console.print('안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.');
   },

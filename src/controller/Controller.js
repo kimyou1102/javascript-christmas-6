@@ -1,8 +1,11 @@
 import InputView from '../view/InputView.js';
 import OutputView from '../view/OutputView.js';
+
+import Event from '../model/Event.js';
+import Badge from '../model/Badge.js';
+
 import { parseMenus } from '../utils/parseMenus.js';
 import { menu } from '../constants/menu.js';
-import Event from '../model/Event.js';
 
 export default class Controller {
   // eslint-disable-next-line max-lines-per-function
@@ -22,6 +25,8 @@ export default class Controller {
     const totalBenefitMoneyWithPresent = this.getTotalBenefitMoneyWithPresent(eventResult);
     OutputView.printBenefitAmount(totalBenefitMoneyWithPresent);
     OutputView.printPaymentAmountAfterDiscount(orderAmount, this.getTotalBenefitMoney(eventResult));
+    const badge = new Badge(totalBenefitMoneyWithPresent);
+    OutputView.printEventBadge(badge.getBadgeType());
   }
 
   getTotalBenefitMoney(eventResult) {

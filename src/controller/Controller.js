@@ -19,16 +19,21 @@ export default class Controller {
     const eventResult = event.getTotalEventResult();
     OutputView.printPresentMenu(eventResult.isPresent);
     OutputView.printBenefitsDetails(eventResult);
-    const totalBenefitMoney = this.getTotalBenefitMoney(eventResult);
-    OutputView.printBenefitAmount(totalBenefitMoney);
+    const totalBenefitMoneyWithPresent = this.getTotalBenefitMoneyWithPresent(eventResult);
+    OutputView.printBenefitAmount(totalBenefitMoneyWithPresent);
+    OutputView.printPaymentAmountAfterDiscount(orderAmount, this.getTotalBenefitMoney(eventResult));
   }
 
   getTotalBenefitMoney(eventResult) {
     const { isPresent, ...restResult } = eventResult;
     const discountMoneys = Object.values(restResult);
-    const sumDiscountMoney = discountMoneys.reduce((acc, money) => acc + money, 0);
+    return discountMoneys.reduce((acc, money) => acc + money, 0);
+  }
+
+  getTotalBenefitMoneyWithPresent(eventResult) {
+    const sumDiscountMoney = this.getTotalBenefitMoney(eventResult);
     let presentMoeny = 0;
-    if (isPresent) presentMoeny = 25000;
+    if (eventResult.isPresent) presentMoeny = 25000;
     return sumDiscountMoney + presentMoeny;
   }
 

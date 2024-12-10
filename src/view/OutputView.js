@@ -29,7 +29,8 @@ const OutputView = {
       Console.print('없음');
       return;
     }
-    if (christmasDiscount > 0) Console.print(`크리스마스 디데이 할인: -${christmasDiscount} 원`);
+    if (christmasDiscount > 0)
+      Console.print(`크리스마스 디데이 할인: -${christmasDiscount.toLocaleString('ko-KR')} 원`);
     if (weekdayDiscount > 0)
       Console.print(`평일 할인: -${weekdayDiscount.toLocaleString('ko-KR')} 원`);
     if (weekendDiscount > 0)
@@ -41,6 +42,10 @@ const OutputView = {
   printBenefitAmount(moeny) {
     Console.print('\n<총혜택 금액>');
     Console.print(`-${moeny.toLocaleString('ko-KR')} 원`);
+  },
+  printPaymentAmountAfterDiscount(totalMoeny, discountMoney) {
+    Console.print('\n<할인 후 예상 결제 금액>');
+    Console.print(`${(totalMoeny - discountMoney).toLocaleString('ko-KR')} 원`);
   },
   printGreeting() {
     Console.print('안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.');

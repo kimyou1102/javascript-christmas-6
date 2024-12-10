@@ -10,14 +10,18 @@ const notAppliedResult = {
 };
 
 export default class Event {
+  #totalMoney;
+  #date;
+  #orderMenus;
+
   constructor(totalMoney, date, orderMenus) {
-    this.totalMoney = totalMoney;
-    this.date = date;
-    this.orderMenus = orderMenus;
+    this.#totalMoney = totalMoney;
+    this.#date = date;
+    this.#orderMenus = orderMenus;
   }
 
   getTotalEventResult() {
-    if (this.totalMoney < 10000) {
+    if (this.#totalMoney < 10000) {
       return notAppliedResult;
     }
     return {
@@ -30,17 +34,17 @@ export default class Event {
   }
 
   getChristmasDiscount() {
-    if (this.date > 26) return 0;
+    if (this.#date > 26) return 0;
     const START_MONEY = 1000;
-    return START_MONEY + (this.date - 1) * 100;
+    return START_MONEY + (this.#date - 1) * 100;
   }
 
   getWeekdayDiscount() {
-    if (!weekday.includes(this.date)) return 0;
+    if (!weekday.includes(this.#date)) return 0;
 
     const WEEKDAY_DISCOUNT_MONEY = 2023;
     let discount = 0;
-    this.orderMenus.forEach(({ name, quantity }) => {
+    this.#orderMenus.forEach(({ name, quantity }) => {
       if (menu[name].type === '디저트') {
         discount += WEEKDAY_DISCOUNT_MONEY * quantity;
       }
@@ -50,10 +54,10 @@ export default class Event {
   }
 
   getWeekendDiscount() {
-    if (weekday.includes(this.date)) return 0;
+    if (weekday.includes(this.#date)) return 0;
     const WEEKEND_DISCOUNT_MONEY = 2023;
     let discount = 0;
-    this.orderMenus.forEach(({ name, quantity }) => {
+    this.#orderMenus.forEach(({ name, quantity }) => {
       if (menu[name].type === '메인') {
         discount += WEEKEND_DISCOUNT_MONEY * quantity;
       }
@@ -63,12 +67,12 @@ export default class Event {
   }
 
   getSpecialDiscount() {
-    if (!eventDay.includes(this.date)) return 0;
+    if (!eventDay.includes(this.#date)) return 0;
     return 1000;
   }
 
   isPresent() {
-    if (this.totalMoney >= 120000) return true;
+    if (this.#totalMoney >= 120000) return true;
     return false;
   }
 }
